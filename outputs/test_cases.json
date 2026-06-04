@@ -1,0 +1,812 @@
+[
+  {
+    "tc_id": "TC-001",
+    "story_id": "US-001",
+    "title": "Valid Registration",
+    "type": "positive",
+    "preconditions": [
+      "User does not have an existing account"
+    ],
+    "steps": [
+      "Step 1: Enter a valid email address",
+      "Step 2: Enter a valid password meeting the system's requirements",
+      "Step 3: Confirm the password",
+      "Step 4: Submit the registration form"
+    ],
+    "expected_result": "The system displays a success message and sends a verification email",
+    "priority": "P1"
+  },
+  {
+    "tc_id": "TC-002",
+    "story_id": "US-001",
+    "title": "Duplicate Email Registration",
+    "type": "negative",
+    "preconditions": [
+      "User already has an existing account with the same email"
+    ],
+    "steps": [
+      "Step 1: Enter an email address that is already in use",
+      "Step 2: Enter a valid password",
+      "Step 3: Confirm the password",
+      "Step 4: Submit the registration form"
+    ],
+    "expected_result": "The system displays an error message indicating the email is already in use",
+    "priority": "P2"
+  },
+  {
+    "tc_id": "TC-003",
+    "story_id": "US-001",
+    "title": "Invalid Email Registration",
+    "type": "negative",
+    "preconditions": [
+      "User does not have an existing account"
+    ],
+    "steps": [
+      "Step 1: Enter an invalid email address",
+      "Step 2: Enter a valid password",
+      "Step 3: Confirm the password",
+      "Step 4: Submit the registration form"
+    ],
+    "expected_result": "The system displays an error message indicating the email is invalid",
+    "priority": "P2"
+  },
+  {
+    "tc_id": "TC-004",
+    "story_id": "US-001",
+    "title": "Weak Password Registration",
+    "type": "negative",
+    "preconditions": [
+      "User does not have an existing account"
+    ],
+    "steps": [
+      "Step 1: Enter a valid email address",
+      "Step 2: Enter a password that does not meet the system's requirements",
+      "Step 3: Confirm the password",
+      "Step 4: Submit the registration form"
+    ],
+    "expected_result": "The system displays an error message indicating the password is weak",
+    "priority": "P2"
+  },
+  {
+    "tc_id": "TC-005",
+    "story_id": "US-001",
+    "title": "Unverified Email Access",
+    "type": "negative",
+    "preconditions": [
+      "User has registered but not verified their email"
+    ],
+    "steps": [
+      "Step 1: Attempt to log in with the unverified email address",
+      "Step 2: Enter the correct password"
+    ],
+    "expected_result": "The system prevents access and prompts the user to verify their email",
+    "priority": "P1"
+  },
+  {
+    "tc_id": "TC-006",
+    "story_id": "US-001",
+    "title": "Empty Email Registration",
+    "type": "edge",
+    "preconditions": [
+      "User does not have an existing account"
+    ],
+    "steps": [
+      "Step 1: Leave the email field empty",
+      "Step 2: Enter a valid password",
+      "Step 3: Confirm the password",
+      "Step 4: Submit the registration form"
+    ],
+    "expected_result": "The system displays an error message indicating the email is required",
+    "priority": "P3"
+  },
+  {
+    "tc_id": "TC-007",
+    "story_id": "US-001",
+    "title": "Maximum Length Email Registration",
+    "type": "edge",
+    "preconditions": [
+      "User does not have an existing account"
+    ],
+    "steps": [
+      "Step 1: Enter an email address with the maximum allowed length",
+      "Step 2: Enter a valid password",
+      "Step 3: Confirm the password",
+      "Step 4: Submit the registration form"
+    ],
+    "expected_result": "The system allows the registration or displays an error message if the email is too long",
+    "priority": "P3"
+  },
+  {
+    "tc_id": "TC-008",
+    "story_id": "US-002",
+    "title": "Successful Login with Valid Credentials",
+    "type": "positive",
+    "preconditions": [
+      "User has a registered account",
+      "User has valid login credentials"
+    ],
+    "steps": [
+      "Step 1: Enter valid username and password",
+      "Step 2: Click the login button"
+    ],
+    "expected_result": "The system authenticates the user and redirects to the dashboard",
+    "priority": "P1"
+  },
+  {
+    "tc_id": "TC-009",
+    "story_id": "US-002",
+    "title": "Failed Login with Invalid Credentials",
+    "type": "negative",
+    "preconditions": [
+      "User has a registered account",
+      "User has invalid login credentials"
+    ],
+    "steps": [
+      "Step 1: Enter invalid username or password",
+      "Step 2: Click the login button"
+    ],
+    "expected_result": "The system displays an error message",
+    "priority": "P2"
+  },
+  {
+    "tc_id": "TC-010",
+    "story_id": "US-002",
+    "title": "Consecutive Failed Login Attempts",
+    "type": "edge",
+    "preconditions": [
+      "User has a registered account",
+      "User has invalid login credentials"
+    ],
+    "steps": [
+      "Step 1: Enter invalid username or password and click the login button",
+      "Step 2: Repeat step 1 multiple times",
+      "Step 3: Attempt to login after multiple failed attempts"
+    ],
+    "expected_result": "The system temporarily locks the account",
+    "priority": "P1"
+  },
+  {
+    "tc_id": "TC-011",
+    "story_id": "US-002",
+    "title": "Two-Factor Authentication",
+    "type": "positive",
+    "preconditions": [
+      "User has a registered account",
+      "User has two-factor authentication enabled"
+    ],
+    "steps": [
+      "Step 1: Enter valid username and password",
+      "Step 2: Receive and enter the two-factor authentication code"
+    ],
+    "expected_result": "The system authenticates the user and redirects to the dashboard",
+    "priority": "P2"
+  },
+  {
+    "tc_id": "TC-012",
+    "story_id": "US-002",
+    "title": "SQL Injection Attack",
+    "type": "negative",
+    "preconditions": [
+      "User has a registered account"
+    ],
+    "steps": [
+      "Step 1: Enter a username with a SQL injection payload",
+      "Step 2: Click the login button"
+    ],
+    "expected_result": "The system prevents the SQL injection attack and displays an error message",
+    "priority": "P1"
+  },
+  {
+    "tc_id": "TC-013",
+    "story_id": "US-002",
+    "title": "Password Reset Functionality",
+    "type": "positive",
+    "preconditions": [
+      "User has a registered account",
+      "User has forgotten their password"
+    ],
+    "steps": [
+      "Step 1: Click the forgot password link",
+      "Step 2: Enter the username or email address associated with the account",
+      "Step 3: Receive and follow the password reset instructions"
+    ],
+    "expected_result": "The system allows the user to reset their password and login successfully",
+    "priority": "P2"
+  },
+  {
+    "tc_id": "TC-014",
+    "story_id": "US-003",
+    "title": "Successful Password Reset",
+    "type": "positive",
+    "preconditions": [
+      "User has a valid account",
+      "User has a registered email address"
+    ],
+    "steps": [
+      "Step 1: User requests a password reset",
+      "Step 2: User receives a reset link via email within 5 minutes",
+      "Step 3: User clicks the reset link and sets a new password within 30 minutes"
+    ],
+    "expected_result": "The system updates the user's password successfully and logs the user in automatically",
+    "priority": "P1"
+  },
+  {
+    "tc_id": "TC-015",
+    "story_id": "US-003",
+    "title": "Password Reset with Invalid Email",
+    "type": "negative",
+    "preconditions": [
+      "User does not have a valid account",
+      "User enters an email address not registered in the system"
+    ],
+    "steps": [
+      "Step 1: User requests a password reset with an invalid email address",
+      "Step 2: System attempts to send a reset link to the email address"
+    ],
+    "expected_result": "The system handles the case where the user's email is not found and notifies the user",
+    "priority": "P2"
+  },
+  {
+    "tc_id": "TC-016",
+    "story_id": "US-003",
+    "title": "Expired Password Reset Link",
+    "type": "edge",
+    "preconditions": [
+      "User has a valid account",
+      "User has a registered email address",
+      "Password reset link has expired (more than 30 minutes old)"
+    ],
+    "steps": [
+      "Step 1: User attempts to use an expired password reset link",
+      "Step 2: System checks the expiration time of the reset link"
+    ],
+    "expected_result": "The system notifies the user that the password reset link has expired",
+    "priority": "P2"
+  },
+  {
+    "tc_id": "TC-017",
+    "story_id": "US-003",
+    "title": "Locked or Disabled Account Password Reset",
+    "type": "negative",
+    "preconditions": [
+      "User has a valid account",
+      "User's account is locked or disabled"
+    ],
+    "steps": [
+      "Step 1: User requests a password reset",
+      "Step 2: System checks the account status"
+    ],
+    "expected_result": "The system handles the case where the user's account is locked or disabled and notifies the user",
+    "priority": "P2"
+  },
+  {
+    "tc_id": "TC-018",
+    "story_id": "US-003",
+    "title": "Brute-Force Password Reset Attempt",
+    "type": "negative",
+    "preconditions": [
+      "User has a valid account",
+      "User has a registered email address"
+    ],
+    "steps": [
+      "Step 1: User attempts to guess the password reset link multiple times",
+      "Step 2: System detects and prevents brute-force attempts"
+    ],
+    "expected_result": "The system prevents brute-force attempts to guess the password reset link",
+    "priority": "P1"
+  },
+  {
+    "tc_id": "TC-019",
+    "story_id": "US-004",
+    "title": "Update Profile with Valid Data",
+    "type": "positive",
+    "preconditions": [
+      "User is logged in",
+      "User has a profile"
+    ],
+    "steps": [
+      "Step 1: User navigates to the profile management page",
+      "Step 2: User enters a valid name (less than 50 characters)",
+      "Step 3: User enters a valid phone number (10 digits)",
+      "Step 4: User clicks the update profile button"
+    ],
+    "expected_result": "The system updates the user's profile immediately",
+    "priority": "P1"
+  },
+  {
+    "tc_id": "TC-020",
+    "story_id": "US-004",
+    "title": "Update Profile with Invalid Phone Number",
+    "type": "negative",
+    "preconditions": [
+      "User is logged in",
+      "User has a profile"
+    ],
+    "steps": [
+      "Step 1: User navigates to the profile management page",
+      "Step 2: User enters a valid name (less than 50 characters)",
+      "Step 3: User enters an invalid phone number (less than 10 digits)",
+      "Step 4: User clicks the update profile button"
+    ],
+    "expected_result": "The system displays an error message",
+    "priority": "P2"
+  },
+  {
+    "tc_id": "TC-021",
+    "story_id": "US-004",
+    "title": "Update Profile with Empty Name",
+    "type": "edge",
+    "preconditions": [
+      "User is logged in",
+      "User has a profile"
+    ],
+    "steps": [
+      "Step 1: User navigates to the profile management page",
+      "Step 2: User leaves the name field empty",
+      "Step 3: User enters a valid phone number (10 digits)",
+      "Step 4: User clicks the update profile button"
+    ],
+    "expected_result": "The system does not update the profile and displays an error message",
+    "priority": "P2"
+  },
+  {
+    "tc_id": "TC-022",
+    "story_id": "US-004",
+    "title": "Update Profile with Non-Numeric Phone Number",
+    "type": "negative",
+    "preconditions": [
+      "User is logged in",
+      "User has a profile"
+    ],
+    "steps": [
+      "Step 1: User navigates to the profile management page",
+      "Step 2: User enters a valid name (less than 50 characters)",
+      "Step 3: User enters a phone number with non-numeric characters",
+      "Step 4: User clicks the update profile button"
+    ],
+    "expected_result": "The system prevents the user from entering non-numeric characters and displays an error message",
+    "priority": "P2"
+  },
+  {
+    "tc_id": "TC-023",
+    "story_id": "US-004",
+    "title": "Update Profile with Name Exceeding 50 Characters",
+    "type": "edge",
+    "preconditions": [
+      "User is logged in",
+      "User has a profile"
+    ],
+    "steps": [
+      "Step 1: User navigates to the profile management page",
+      "Step 2: User enters a name exceeding 50 characters",
+      "Step 3: User enters a valid phone number (10 digits)",
+      "Step 4: User clicks the update profile button"
+    ],
+    "expected_result": "The system handles the case and displays an error message or truncates the name",
+    "priority": "P3"
+  },
+  {
+    "tc_id": "TC-024",
+    "story_id": "US-005",
+    "title": "5 Consecutive Failed Login Attempts Lockout",
+    "type": "positive",
+    "preconditions": [
+      "User has a valid account",
+      "User is attempting to log in within a 1-hour time frame"
+    ],
+    "steps": [
+      "Step 1: Attempt to log in with an incorrect password 5 times consecutively",
+      "Step 2: Verify the account is locked after the 5th attempt"
+    ],
+    "expected_result": "The system locks the user's account and sends a notification",
+    "priority": "P1"
+  },
+  {
+    "tc_id": "TC-025",
+    "story_id": "US-005",
+    "title": "Invalid Password Reset Mechanism",
+    "type": "negative",
+    "preconditions": [
+      "User has a locked account",
+      "User is attempting to unlock their account"
+    ],
+    "steps": [
+      "Step 1: Attempt to unlock the account using an invalid password reset mechanism",
+      "Step 2: Verify the account remains locked"
+    ],
+    "expected_result": "The system does not unlock the account and displays an error message",
+    "priority": "P2"
+  },
+  {
+    "tc_id": "TC-026",
+    "story_id": "US-005",
+    "title": "Account Unlock After 15 Minutes of Inactivity",
+    "type": "positive",
+    "preconditions": [
+      "User has a locked account",
+      "15 minutes of inactivity have passed"
+    ],
+    "steps": [
+      "Step 1: Wait for 15 minutes after the account was locked",
+      "Step 2: Attempt to log in with the correct password"
+    ],
+    "expected_result": "The system unlocks the account and allows the user to log in",
+    "priority": "P1"
+  },
+  {
+    "tc_id": "TC-027",
+    "story_id": "US-005",
+    "title": "Multiple Concurrent Login Sessions",
+    "type": "edge",
+    "preconditions": [
+      "User has multiple concurrent login sessions",
+      "User attempts to log in from multiple locations"
+    ],
+    "steps": [
+      "Step 1: Attempt to log in from multiple locations concurrently",
+      "Step 2: Verify the system handles the multiple sessions correctly"
+    ],
+    "expected_result": "The system handles the multiple sessions correctly and locks the account after 5 consecutive failed login attempts",
+    "priority": "P2"
+  },
+  {
+    "tc_id": "TC-028",
+    "story_id": "US-005",
+    "title": "Less Than 5 Consecutive Failed Login Attempts",
+    "type": "edge",
+    "preconditions": [
+      "User has a valid account",
+      "User is attempting to log in within a 1-hour time frame"
+    ],
+    "steps": [
+      "Step 1: Attempt to log in with an incorrect password 4 times consecutively",
+      "Step 2: Verify the account is not locked"
+    ],
+    "expected_result": "The system does not lock the account",
+    "priority": "P3"
+  },
+  {
+    "tc_id": "TC-029",
+    "story_id": "US-006",
+    "title": "Secure Password Encryption",
+    "type": "positive",
+    "preconditions": [
+      "User has a valid account",
+      "Password is set"
+    ],
+    "steps": [
+      "Step 1: Create a new user account",
+      "Step 2: Set a password for the new account",
+      "Step 3: Verify the password is encrypted using a secure encryption algorithm"
+    ],
+    "expected_result": "The password is encrypted and stored securely",
+    "priority": "P1"
+  },
+  {
+    "tc_id": "TC-030",
+    "story_id": "US-006",
+    "title": "Invalid Input Validation",
+    "type": "negative",
+    "preconditions": [
+      "User has a valid account",
+      "User attempts to input malicious data"
+    ],
+    "steps": [
+      "Step 1: Attempt to input malicious data (e.g. SQL injection, XSS) into a form field",
+      "Step 2: Submit the form",
+      "Step 3: Verify the system prevents the malicious input from being processed"
+    ],
+    "expected_result": "The system prevents the malicious input from being processed and logs the event",
+    "priority": "P1"
+  },
+  {
+    "tc_id": "TC-031",
+    "story_id": "US-006",
+    "title": "Empty Input Validation",
+    "type": "edge",
+    "preconditions": [
+      "User has a valid account",
+      "User attempts to input empty data"
+    ],
+    "steps": [
+      "Step 1: Attempt to input empty data into a form field",
+      "Step 2: Submit the form",
+      "Step 3: Verify the system handles the empty input correctly"
+    ],
+    "expected_result": "The system handles the empty input correctly and does not crash or expose sensitive data",
+    "priority": "P2"
+  },
+  {
+    "tc_id": "TC-032",
+    "story_id": "US-006",
+    "title": "API Response Sensitive Data Exposure",
+    "type": "negative",
+    "preconditions": [
+      "User has a valid account",
+      "API request is made"
+    ],
+    "steps": [
+      "Step 1: Make an API request to retrieve sensitive data",
+      "Step 2: Verify the API response",
+      "Step 3: Check for exposure of sensitive data in the API response"
+    ],
+    "expected_result": "The API response does not expose sensitive data",
+    "priority": "P1"
+  },
+  {
+    "tc_id": "TC-033",
+    "story_id": "US-006",
+    "title": "Authentication Mechanism Bypass",
+    "type": "negative",
+    "preconditions": [
+      "User has a valid account",
+      "Attempt to bypass authentication mechanism"
+    ],
+    "steps": [
+      "Step 1: Attempt to bypass the authentication mechanism (e.g. using a fake token)",
+      "Step 2: Verify the system prevents the bypass attempt",
+      "Step 3: Check for logging of the security-related event"
+    ],
+    "expected_result": "The system prevents the bypass attempt and logs the event",
+    "priority": "P1"
+  },
+  {
+    "tc_id": "TC-034",
+    "story_id": "US-007",
+    "title": "Valid API Request Response Time",
+    "type": "positive",
+    "preconditions": [
+      "API request with valid data",
+      "System under normal load"
+    ],
+    "steps": [
+      "Step 1: Send a valid API request to the system",
+      "Step 2: Measure the response time of the system"
+    ],
+    "expected_result": "The system responds correctly to the API request within 2 seconds",
+    "priority": "P1"
+  },
+  {
+    "tc_id": "TC-035",
+    "story_id": "US-007",
+    "title": "Invalid API Request Error Handling",
+    "type": "negative",
+    "preconditions": [
+      "API request with invalid data",
+      "System under normal load"
+    ],
+    "steps": [
+      "Step 1: Send an API request with invalid data to the system",
+      "Step 2: Verify the system's error message response"
+    ],
+    "expected_result": "The system returns an error message within 2 seconds",
+    "priority": "P2"
+  },
+  {
+    "tc_id": "TC-036",
+    "story_id": "US-007",
+    "title": "High Load Response Time",
+    "type": "edge",
+    "preconditions": [
+      "System under a load of 100 concurrent users"
+    ],
+    "steps": [
+      "Step 1: Simulate 100 concurrent API requests to the system",
+      "Step 2: Measure the response time of the system"
+    ],
+    "expected_result": "The system maintains a response time of 2 seconds",
+    "priority": "P1"
+  },
+  {
+    "tc_id": "TC-037",
+    "story_id": "US-007",
+    "title": "Timeout Error Handling",
+    "type": "edge",
+    "preconditions": [
+      "System under a load that exceeds its capacity"
+    ],
+    "steps": [
+      "Step 1: Simulate a load that exceeds the system's capacity",
+      "Step 2: Verify the system's error message response"
+    ],
+    "expected_result": "The system returns an error message when it cannot respond within 2 seconds",
+    "priority": "P2"
+  },
+  {
+    "tc_id": "TC-038",
+    "story_id": "US-007",
+    "title": "Boundary Load Response Time",
+    "type": "edge",
+    "preconditions": [
+      "System under a load of 99 concurrent users",
+      "System under a load of 101 concurrent users"
+    ],
+    "steps": [
+      "Step 1: Simulate 99 concurrent API requests to the system",
+      "Step 2: Measure the response time of the system",
+      "Step 3: Simulate 101 concurrent API requests to the system",
+      "Step 4: Measure the response time of the system"
+    ],
+    "expected_result": "The system maintains a response time of 2 seconds at both loads",
+    "priority": "P3"
+  },
+  {
+    "tc_id": "TC-039",
+    "story_id": "US-008",
+    "title": "System Supports 10,000 Concurrent Users",
+    "type": "positive",
+    "preconditions": [
+      "System is properly configured",
+      "10,000 user accounts are created"
+    ],
+    "steps": [
+      "Step 1: Simulate 10,000 concurrent user connections",
+      "Step 2: Monitor system performance and user connectivity"
+    ],
+    "expected_result": "System supports 10,000 concurrent users without performance degradation",
+    "priority": "P1"
+  },
+  {
+    "tc_id": "TC-040",
+    "story_id": "US-008",
+    "title": "System Fails with Excessive Concurrent Users",
+    "type": "negative",
+    "preconditions": [
+      "System is properly configured",
+      "20,000 user accounts are created"
+    ],
+    "steps": [
+      "Step 1: Simulate 20,000 concurrent user connections",
+      "Step 2: Monitor system performance and user connectivity"
+    ],
+    "expected_result": "System fails to support 20,000 concurrent users and returns an error message",
+    "priority": "P2"
+  },
+  {
+    "tc_id": "TC-041",
+    "story_id": "US-008",
+    "title": "System Handles 20% Increase in Traffic",
+    "type": "edge",
+    "preconditions": [
+      "System is properly configured",
+      "10,000 user accounts are created",
+      "Initial traffic is at 80% of system capacity"
+    ],
+    "steps": [
+      "Step 1: Simulate a 20% increase in traffic",
+      "Step 2: Monitor system performance and response time"
+    ],
+    "expected_result": "System handles the 20% increase in traffic without significant performance degradation",
+    "priority": "P1"
+  },
+  {
+    "tc_id": "TC-042",
+    "story_id": "US-008",
+    "title": "System Recovers Within 5 Minutes After Failure",
+    "type": "edge",
+    "preconditions": [
+      "System is properly configured",
+      "10,000 user accounts are created",
+      "System is under heavy load"
+    ],
+    "steps": [
+      "Step 1: Simulate a system failure",
+      "Step 2: Monitor system recovery time and performance"
+    ],
+    "expected_result": "System recovers within 5 minutes after failure and resumes normal operation",
+    "priority": "P1"
+  },
+  {
+    "tc_id": "TC-043",
+    "story_id": "US-008",
+    "title": "System Responds Within 2 Seconds for 95% of Requests",
+    "type": "positive",
+    "preconditions": [
+      "System is properly configured",
+      "10,000 user accounts are created"
+    ],
+    "steps": [
+      "Step 1: Simulate 10,000 concurrent user requests",
+      "Step 2: Monitor system response time for each request"
+    ],
+    "expected_result": "System responds within 2 seconds for at least 95% of requests",
+    "priority": "P1"
+  },
+  {
+    "tc_id": "TC-044",
+    "story_id": "US-008",
+    "title": "System Maintains Throughput of 500 Requests Per Second",
+    "type": "positive",
+    "preconditions": [
+      "System is properly configured",
+      "10,000 user accounts are created"
+    ],
+    "steps": [
+      "Step 1: Simulate a high volume of user requests",
+      "Step 2: Monitor system throughput and performance"
+    ],
+    "expected_result": "System maintains a throughput of at least 500 requests per second",
+    "priority": "P1"
+  },
+  {
+    "tc_id": "TC-045",
+    "story_id": "US-009",
+    "title": "System Uptime Availability",
+    "type": "positive",
+    "preconditions": [
+      "System is properly configured",
+      "Network connection is stable"
+    ],
+    "steps": [
+      "Step 1: Monitor system uptime over a period of time",
+      "Step 2: Calculate the system uptime percentage",
+      "Step 3: Verify the system uptime percentage is greater than or equal to 99%"
+    ],
+    "expected_result": "System uptime percentage is greater than or equal to 99%",
+    "priority": "P1"
+  },
+  {
+    "tc_id": "TC-046",
+    "story_id": "US-009",
+    "title": "System Unavailability Error Message",
+    "type": "negative",
+    "preconditions": [
+      "System is unavailable due to maintenance or failure"
+    ],
+    "steps": [
+      "Step 1: Attempt to access the system while it is unavailable",
+      "Step 2: Verify the system displays a clear error message",
+      "Step 3: Confirm the error message provides useful information about the system's status"
+    ],
+    "expected_result": "A clear error message is displayed with useful information about the system's status",
+    "priority": "P2"
+  },
+  {
+    "tc_id": "TC-047",
+    "story_id": "US-009",
+    "title": "Concurrent User Limit Edge Case",
+    "type": "edge",
+    "preconditions": [
+      "System has 100 concurrent users"
+    ],
+    "steps": [
+      "Step 1: Simulate 100 concurrent users accessing the system",
+      "Step 2: Monitor system performance and response times",
+      "Step 3: Verify the system handles the concurrent users without significant performance degradation"
+    ],
+    "expected_result": "System handles 100 concurrent users without significant performance degradation",
+    "priority": "P1"
+  },
+  {
+    "tc_id": "TC-048",
+    "story_id": "US-009",
+    "title": "System Recovery from Failure",
+    "type": "positive",
+    "preconditions": [
+      "System has failed and is in the process of recovering"
+    ],
+    "steps": [
+      "Step 1: Simulate a system failure",
+      "Step 2: Monitor system recovery time",
+      "Step 3: Verify the system recovers from the failure within 1 hour"
+    ],
+    "expected_result": "System recovers from the failure within 1 hour",
+    "priority": "P1"
+  },
+  {
+    "tc_id": "TC-049",
+    "story_id": "US-009",
+    "title": "Planned Maintenance Edge Case",
+    "type": "edge",
+    "preconditions": [
+      "System is scheduled for planned maintenance"
+    ],
+    "steps": [
+      "Step 1: Schedule planned maintenance for the system",
+      "Step 2: Verify the system is unavailable during the maintenance window",
+      "Step 3: Confirm the system is available and functional after the maintenance window"
+    ],
+    "expected_result": "System is unavailable during the maintenance window and available after",
+    "priority": "P2"
+  }
+]

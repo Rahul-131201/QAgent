@@ -1,0 +1,93 @@
+[
+  {
+    "story_id": "US-001",
+    "title": "User Registration",
+    "story": "As a new user, I want to create an account, so that I can access the system",
+    "acceptance_criteria": [
+      "The system allows new users to create an account with valid email and password",
+      "The system displays a success message on valid registration",
+      "The system displays error messages on invalid input"
+    ],
+    "priority": "High"
+  },
+  {
+    "story_id": "US-002",
+    "title": "Secure Login",
+    "story": "As a registered user, I want to log in securely, so that I can access my account",
+    "acceptance_criteria": [
+      "The system authenticates registered users with valid credentials",
+      "The system redirects to the dashboard on successful login",
+      "The system displays an error message on failed login attempt"
+    ],
+    "priority": "High"
+  },
+  {
+    "story_id": "US-003",
+    "title": "Password Reset",
+    "story": "As a user, I want to reset my forgotten password, so that I can regain access to my account",
+    "acceptance_criteria": [
+      "The system sends a reset link to the user's email",
+      "The system allows the user to set a new password within the expiry time",
+      "The system updates the user's password successfully"
+    ],
+    "priority": "Medium"
+  },
+  {
+    "story_id": "US-004",
+    "title": "Profile Management",
+    "story": "As a user, I want to update my profile, so that I can keep my information up-to-date",
+    "acceptance_criteria": [
+      "The system allows users to edit their name and phone number",
+      "The system validates phone number to ensure it is 10 digits",
+      "The system updates the user's profile immediately"
+    ],
+    "priority": "Low"
+  },
+  {
+    "story_id": "US-005",
+    "title": "Account Lockout",
+    "story": "As a user, I want the system to lock my account after multiple failed login attempts, so that my account is secure",
+    "acceptance_criteria": [
+      "The system locks the user's account after 5 failed login attempts",
+      "The system unlocks the user's account after 15 minutes"
+    ],
+    "priority": "High"
+  },
+  {
+    "story_id": "US-006",
+    "title": "Data Security",
+    "story": "As a user, I want the system to keep my data secure, so that my information is protected",
+    "acceptance_criteria": [
+      "The system encrypts passwords",
+      "The system does not expose sensitive data in API"
+    ],
+    "priority": "High"
+  },
+  {
+    "story_id": "US-007",
+    "title": "System Performance",
+    "story": "As a user, I want the system to respond quickly, so that I can use it efficiently",
+    "acceptance_criteria": [
+      "The system responds to API requests within 2 seconds"
+    ],
+    "priority": "Medium"
+  },
+  {
+    "story_id": "US-008",
+    "title": "System Scalability",
+    "story": "As a user, I want the system to support a large number of users, so that it can handle high traffic",
+    "acceptance_criteria": [
+      "The system supports 10,000 concurrent users"
+    ],
+    "priority": "Medium"
+  },
+  {
+    "story_id": "US-009",
+    "title": "System Reliability",
+    "story": "As a user, I want the system to be available at all times, so that I can use it whenever I need to",
+    "acceptance_criteria": [
+      "The system uptime is greater than or equal to 99%"
+    ],
+    "priority": "High"
+  }
+]

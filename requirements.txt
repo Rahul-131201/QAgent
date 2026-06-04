@@ -1,0 +1,51 @@
+# ============================================================
+# QAgent Requirements
+# ============================================================
+
+# --- LangChain / LangGraph Core ---
+langgraph>=0.2.0
+langchain>=0.3.0
+langchain-core>=0.3.0
+langchain-community>=0.3.0
+
+# --- LLM Providers ---
+langchain-groq>=0.2.0
+langchain-google-genai>=2.0.0
+langchain-openai>=0.2.0          # OpenRouter + HuggingFace (OpenAI-compatible)
+
+# --- API Backend ---
+fastapi>=0.115.0
+uvicorn[standard]>=0.30.0
+
+# --- Vector Store / RAG ---
+faiss-cpu>=1.8.0
+sentence-transformers>=3.0.0          # HuggingFace embeddings (all-MiniLM-L6-v2)
+langchain-huggingface>=0.1.0          # Replaces deprecated langchain_community.embeddings.HuggingFaceEmbeddings
+
+# --- UI ---
+streamlit>=1.40.0
+plotly>=5.24.0                        # Charts in Streamlit
+
+# --- Testing ---
+pytest>=8.0.0
+pytest-asyncio>=0.24.0
+pytest-json-report>=1.5.0
+playwright>=1.47.0
+
+# --- Config / Env ---
+python-dotenv>=1.0.0
+pydantic>=2.9.0
+pydantic-settings>=2.5.0
+
+# --- LLM Utilities ---
+tiktoken>=0.8.0
+
+# --- PDF / Document Parsing (for BRD upload) ---
+pdfplumber>=0.11.0          # PDF text extraction
+pypdf2>=3.0.0               # Legacy PDF fallback
+python-docx>=1.1.0          # .docx extraction
+openpyxl>=3.1.0             # .xlsx / .xls extraction
+python-multipart>=0.0.9     # FastAPI multipart/form-data support
+
+# --- Code Quality ---
+ruff>=0.7.0

@@ -1,0 +1,188 @@
+[
+  {
+    "story_id": "US-001",
+    "title": "User Registration",
+    "story": "As a new user, I want to create an account, so that I can access the system",
+    "acceptance_criteria": [
+      "The system allows new users to create an account with valid email and password",
+      "The system displays a success message on valid registration",
+      "The system displays error messages on invalid input",
+      "The system prevents registration with duplicate email addresses",
+      "The system handles password requirements such as minimum length and complexity",
+      "The system sends a verification email to the user after registration",
+      "The system requires email verification before allowing access to the system"
+    ],
+    "priority": "High",
+    "qa_notes": [
+      "The story does not specify what constitutes a valid email and password",
+      "The story does not specify the exact error messages to be displayed",
+      "The story does not specify the password requirements",
+      "The story does not specify the email verification process"
+    ],
+    "needs_review": true,
+    "qa_confidence": 0.6
+  },
+  {
+    "story_id": "US-002",
+    "title": "Secure Login",
+    "story": "As a registered user, I want to log in securely, so that I can access my account",
+    "acceptance_criteria": [
+      "The system authenticates registered users with valid credentials",
+      "The system redirects to the dashboard on successful login",
+      "The system displays an error message on failed login attempt",
+      "The system handles multiple consecutive failed login attempts by temporarily locking the account",
+      "The system supports two-factor authentication",
+      "The system logs all login attempts for auditing purposes",
+      "The system handles password reset functionality correctly"
+    ],
+    "priority": "High",
+    "qa_notes": [
+      "The story is mostly clear, but could benefit from more specific details on authentication protocols and password requirements",
+      "Edge cases such as SQL injection and cross-site scripting attacks should be considered"
+    ],
+    "needs_review": true,
+    "qa_confidence": 0.8
+  },
+  {
+    "story_id": "US-003",
+    "title": "Password Reset",
+    "story": "As a user, I want to reset my forgotten password, so that I can regain access to my account",
+    "acceptance_criteria": [
+      "The system sends a reset link to the user's registered email within 5 minutes of requesting a password reset",
+      "The system allows the user to set a new password within 30 minutes of receiving the reset link",
+      "The system updates the user's password successfully and logs the user in automatically after a successful password reset",
+      "The system handles cases where the user's email is not found in the system",
+      "The system handles cases where the user's account is locked or disabled",
+      "The system prevents brute-force attempts to guess the password reset link",
+      "The system notifies the user if the password reset link has expired"
+    ],
+    "priority": "Medium",
+    "qa_notes": [
+      "The story does not specify what happens if the user's email is not found in the system",
+      "The story does not specify what happens if the user's account is locked or disabled",
+      "The story does not specify the password complexity requirements for the new password",
+      "The story does not specify the maximum number of attempts allowed to guess the password reset link"
+    ],
+    "needs_review": true,
+    "qa_confidence": 0.6
+  },
+  {
+    "story_id": "US-004",
+    "title": "Profile Management",
+    "story": "As a user, I want to update my profile, so that I can keep my information up-to-date",
+    "acceptance_criteria": [
+      "The system allows users to edit their name and phone number",
+      "The system validates phone number to ensure it is 10 digits",
+      "The system updates the user's profile immediately",
+      "The system handles cases where the user's name exceeds 50 characters",
+      "The system prevents users from entering non-numeric characters in the phone number field",
+      "The system displays an error message when the phone number is not 10 digits",
+      "The system does not update the profile if the user's name or phone number is empty"
+    ],
+    "priority": "Low",
+    "qa_notes": [
+      "The story does not specify what happens when a user tries to update their profile with invalid data",
+      "The story does not specify the exact error message to be displayed for invalid phone numbers",
+      "The story does not specify the maximum allowed length for the user's name"
+    ],
+    "needs_review": true,
+    "qa_confidence": 0.6
+  },
+  {
+    "story_id": "US-005",
+    "title": "Account Lockout",
+    "story": "As a user, I want the system to lock my account after multiple failed login attempts, so that my account is secure",
+    "acceptance_criteria": [
+      "The system locks the user's account after 5 consecutive failed login attempts within a 1-hour time frame",
+      "The system unlocks the user's account after 15 minutes of inactivity",
+      "The system sends a notification to the user after the account is locked",
+      "The system allows the user to unlock their account using a valid password reset mechanism",
+      "The system handles edge cases such as a user having multiple concurrent login sessions"
+    ],
+    "priority": "High",
+    "qa_notes": [
+      "The term 'multiple failed login attempts' has been clarified to '5 consecutive failed login attempts within a 1-hour time frame' for better understanding",
+      "Additional acceptance criteria have been added to cover edge cases and negative paths"
+    ],
+    "needs_review": false,
+    "qa_confidence": 0.9
+  },
+  {
+    "story_id": "US-006",
+    "title": "Data Security",
+    "story": "As a user, I want the system to keep my data secure, so that my information is protected",
+    "acceptance_criteria": [
+      "The system encrypts passwords using a secure encryption algorithm",
+      "The system does not expose sensitive data in API responses",
+      "The system validates and sanitizes user input to prevent SQL injection and cross-site scripting (XSS) attacks",
+      "The system implements secure authentication and authorization mechanisms",
+      "The system logs and monitors security-related events"
+    ],
+    "priority": "High",
+    "qa_notes": [
+      "The story lacks specific details on the encryption algorithm used",
+      "The story does not mention compliance with relevant security standards or regulations"
+    ],
+    "needs_review": true,
+    "qa_confidence": 0.6
+  },
+  {
+    "story_id": "US-007",
+    "title": "System Performance",
+    "story": "As a user, I want the system to respond within 2 seconds, so that I can use it efficiently",
+    "acceptance_criteria": [
+      "The system responds to API requests within 2 seconds",
+      "The system responds correctly to API requests with valid data",
+      "The system handles API requests with invalid data and returns an error message within 2 seconds",
+      "The system maintains a response time of 2 seconds under a load of 100 concurrent users",
+      "The system returns an error message if it cannot respond within 2 seconds"
+    ],
+    "priority": "Medium",
+    "qa_notes": [
+      "The term 'quickly' in the original story was ambiguous and has been replaced with a specific response time",
+      "Additional acceptance criteria have been added to cover edge cases and boundary conditions"
+    ],
+    "needs_review": true,
+    "qa_confidence": 0.8
+  },
+  {
+    "story_id": "US-008",
+    "title": "System Scalability",
+    "story": "As a system administrator, I want the system to support a large number of concurrent users, so that it can handle high traffic without performance degradation",
+    "acceptance_criteria": [
+      "The system supports 10,000 concurrent users",
+      "The system responds within 2 seconds for 95% of requests with 10,000 concurrent users",
+      "The system maintains a throughput of at least 500 requests per second with 10,000 concurrent users",
+      "The system handles a 20% increase in traffic without significant performance degradation",
+      "The system recovers within 5 minutes after a failure with 10,000 concurrent users"
+    ],
+    "priority": "Medium",
+    "qa_notes": [
+      "The definition of 'large number of users' and 'high traffic' should be quantified",
+      "Edge cases such as user spikes and traffic bursts should be considered",
+      "Performance metrics such as response time and throughput should be defined"
+    ],
+    "needs_review": true,
+    "qa_confidence": 0.6
+  },
+  {
+    "story_id": "US-009",
+    "title": "System Reliability",
+    "story": "As a user, I want the system to be available at all times, so that I can use it whenever I need to",
+    "acceptance_criteria": [
+      "The system uptime is greater than or equal to 99%",
+      "The system responds to user requests within 2 seconds",
+      "The system handles a minimum of 100 concurrent users without significant performance degradation",
+      "The system recovers from failures within 1 hour",
+      "The system provides a clear error message when it is unavailable"
+    ],
+    "priority": "High",
+    "qa_notes": [
+      "The story lacks specific details about what constitutes 'available at all times'",
+      "The acceptance criteria should include negative paths, such as handling network failures or database errors",
+      "Edge cases, such as planned maintenance or unexpected spikes in traffic, should be considered"
+    ],
+    "needs_review": true,
+    "qa_confidence": 0.6
+  }
+]

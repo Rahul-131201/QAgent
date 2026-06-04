@@ -1,0 +1,50 @@
+# QAgent .gitignore
+
+# Environment
+.env
+*.env
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+dist/
+build/
+*.egg
+
+# Virtual envs
+venv/
+.venv/
+env/
+
+# FAISS index (large binary files — commit only if needed)
+memory/faiss_index/
+
+# Generated test artifacts
+tests/generated/*.py
+tests/generated/healed/
+
+# pytest / reports
+.pytest_cache/
+.pytest_json_report/
+htmlcov/
+.coverage
+
+# Streamlit
+.streamlit/
+
+# IDE
+.vscode/
+.idea/
+*.DS_Store
+
+# Frontend (Next.js)
+frontend/node_modules/
+frontend/.next/
+frontend/out/
+frontend/build/
+frontend/*.tsbuildinfo
+frontend/next-env.d.ts
