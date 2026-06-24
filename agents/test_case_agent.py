@@ -176,6 +176,17 @@ def _parse_and_validate(raw: str, story_id: str) -> list[dict]:
     violation per the quality standard).
     """
     data = json.loads(_extract_json(raw))
+    if isinstance(data, dict):
+        # Look for a list-of-dicts (test case objects), not any list
+        found_list = None
+        for v in data.values():
+            if isinstance(v, list) and all(isinstance(i, dict) for i in v):
+                found_list = v
+                break
+        if found_list is not None:
+            data = found_list
+        else:
+            data = [data]  # single test-case object — wrap it
     if not isinstance(data, list):
         raise ValueError(f"Expected a JSON array, got {type(data).__name__}")
     if len(data) < 3:

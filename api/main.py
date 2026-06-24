@@ -105,12 +105,12 @@ def _safe_encode_state(state_dict: dict) -> dict:
     """
     Safely convert a QAgentState dict to a JSON-serialisable plain dict.
 
-    Uses FastAPI's jsonable_encoder which correctly handles Path objects,
-    Pydantic models, datetimes, and other non-serialisable types. Falls back
-    to a stringify-everything approach on any encoding failure.
+    Uses a json round-trip with a default=str handler which correctly handles
+    Path objects, datetimes, and other non-serialisable leaf values while
+    preserving all dict/list structure intact.
     """
     try:
-        return jsonable_encoder(state_dict, custom_encoder={object: str})
+        return json.loads(json.dumps(state_dict, default=str))
     except Exception:
         # Last resort: stringify every non-primitive value individually
         return {
@@ -151,7 +151,10 @@ class StreamInterceptor:
         self.loop = loop
 
     def write(self, text: str):
-        self.original_stdout.write(text)
+        try:
+            self.original_stdout.write(text)
+        except UnicodeEncodeError:
+            self.original_stdout.write(text.encode('ascii', 'replace').decode('ascii'))
         stripped = text.strip()
         if stripped:
             if self.session_id in sessions:
@@ -327,7 +330,7 @@ async def run_pipeline_step(session_id: str, step_id: int, req: StartPipelineReq
         raise
     except Exception as e:
         tb = traceback.format_exc()
-        print(f"\n❌ STEP {step_id} EXCEPTION:\n{tb}", flush=True)
+        print(f"\n[X] STEP {step_id} EXCEPTION:\n{tb}", flush=True)
         await broadcast_log(session_id, f"❌ Error in Step {step_id}: {type(e).__name__}: {e}")
         raise HTTPException(status_code=500, detail=f"{type(e).__name__}: {e}")
 

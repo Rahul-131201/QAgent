@@ -1,4 +1,4 @@
-﻿import { useState, useEffect, useCallback, useRef } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import axios from 'axios';
 
 export function usePipelineSession() {
@@ -62,7 +62,7 @@ export function usePipelineSession() {
           }
         };
       } catch {
-        setLogs(["❌ Cannot connect to backend. Make sure uvicorn is running on port 3001."]);
+        setLogs(["❌ Cannot connect to backend. Make sure uvicorn is running on port 8000."]);
       }
     }
     initSession();
@@ -80,7 +80,7 @@ export function usePipelineSession() {
       });
       setCurrentStep(nextStep);
       setStateData(res.data.data as Record<string, unknown>);
-      if (nextStep > 1) setActiveTab('data');
+      if (nextStep >= 1) setActiveTab('data');
     } catch {
       setLogs(prev => [...prev, "❌ HTTP Error — step failed."]);
     } finally {

@@ -27,6 +27,7 @@ from typing import Literal
 from langchain_core.messages import HumanMessage, SystemMessage
 from pydantic import BaseModel, Field, ValidationError, field_validator
 
+from agents.utils import extract_json
 import config
 from graph.state import QAgentState
 from memory.faiss_store import get_memory
@@ -134,29 +135,35 @@ processing, underwriting, policy renewal, coverage management.
 _USER_PROMPT_TEMPLATE = """\
 Extract ALL functional user stories from the following Business Requirement Document.
 
-Return ONLY a valid JSON array — no markdown fences, no explanation, no commentary.
-Each element MUST match this exact schema:
+Return a JSON object with a single key "user_stories" containing an array of story objects.
+Each story object MUST match this exact schema:
 
 {{
-  "story_id":            "US-001",
-  "title":               "<Brief descriptive title, 5–8 words>",
-  "story":               "As a [role], I want [action] so that [benefit]",
-  "acceptance_criteria": [
-    "Given <context>, When <action>, Then <outcome>",
-    "Given <context>, When <action>, Then <outcome>",
-    "Given <context>, When <action>, Then <outcome>"
-  ],
-  "priority":    "High" | "Medium" | "Low",
-  "estimation":  <integer: 1 | 2 | 3 | 5 | 8 | 13>,
-  "description": "<2–3 sentences: what the feature does, why it matters, key business rules>"
+  "user_stories": [
+    {{
+      "story_id":            "US-001",
+      "title":               "<Brief descriptive title, 5–8 words>",
+      "story":               "As a [role], I want [action] so that [benefit]",
+      "acceptance_criteria": [
+        "Given <context>, When <action>, Then <outcome>",
+        "Given <context>, When <action>, Then <outcome>",
+        "Given <context>, When <action>, Then <outcome>"
+      ],
+      "priority":    "High",
+      "estimation":  3,
+      "description": "<2–3 sentences: what the feature does, why it matters, key business rules>"
+    }}
+  ]
 }}
 
 Strict constraints:
 - "story" MUST contain "As a", "I want", and "so that"
 - "acceptance_criteria" MUST have at least 3 items, each starting with "Given"
 - "estimation" MUST be one of: 1, 2, 3, 5, 8, 13
+- "priority" MUST be one of: "High", "Medium", "Low"
 - Cover ALL functional areas in the BRD
 - Do NOT include security, performance, infrastructure, or non-functional stories
+- Return ONLY the JSON object — no markdown fences, no explanation
 
 BRD:
 \"\"\"
@@ -167,25 +174,46 @@ BRD:
 # ── Helpers ───────────────────────────────────────────────────────────────────
 
 def _extract_json(text: str) -> str:
-    """Strip any accidental markdown code fences around JSON."""
-    text = text.strip()
-    if text.startswith("```"):
-        lines = text.splitlines()
-        # drop first and last fence lines
-        inner = lines[1:] if lines[-1].strip() == "```" else lines[1:]
-        if inner and inner[-1].strip() == "```":
-            inner = inner[:-1]
-        text = "\n".join(inner).strip()
-    return text
+    """Strip markdown code fences — delegates to the shared utils helper."""
+    return extract_json(text)
 
 
 def _parse_and_validate(raw: str) -> list[dict]:
-    """Parse JSON and validate every element against UserStory."""
+    """Parse JSON and validate every element against UserStory.
+
+    Always expects {"user_stories": [...]} but also handles bare arrays
+    and single-story dicts for resilience.
+    """
     data = json.loads(_extract_json(raw))
+
+    if isinstance(data, dict):
+        # Prefer the explicit 'user_stories' key first
+        if "user_stories" in data and isinstance(data["user_stories"], list):
+            data = data["user_stories"]
+        else:
+            # Fall back: find first list-of-dicts value
+            found_list: list | None = None
+            for v in data.values():
+                if isinstance(v, list) and len(v) > 0 and all(isinstance(i, dict) for i in v):
+                    found_list = v
+                    break
+            if found_list is not None:
+                data = found_list
+            else:
+                # Treat the whole dict as a single story
+                data = [data]
+
     if not isinstance(data, list):
         raise ValueError(f"Expected a JSON array, got {type(data).__name__}")
+    if len(data) == 0:
+        raise ValueError("LLM returned an empty user_stories array")
+
     stories: list[dict] = []
     for item in data:
+        if not isinstance(item, dict):
+            raise ValueError(
+                f"Each story must be a JSON object, got {type(item).__name__}: {str(item)[:120]}"
+            )
         validated = UserStory.model_validate(item)
         stories.append(validated.model_dump())
     return stories
@@ -228,7 +256,7 @@ def requirement_agent(state: QAgentState) -> QAgentState:
 
     for attempt in range(1, max_retries + 2):          # attempts: 1, 2, 3
         try:
-            response = llm.invoke(messages, json_mode=True)
+            response = llm.invoke(messages)  # no json_mode — prompt specifies the JSON object format
             stories = _parse_and_validate(response.content)
 
             # ── Log quality summary ──────────────────────────────────────────

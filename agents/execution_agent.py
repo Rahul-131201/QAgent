@@ -26,7 +26,7 @@ logger = logging.getLogger(__name__)
 
 # ── Constants ─────────────────────────────────────────────────────────────────
 
-DEFAULT_TIMEOUT: int = 120          # seconds per test file
+DEFAULT_TIMEOUT: int = 10           # seconds per test file (fail extremely fast for proxy)
 PYTEST_REPORT_FILE = "report.json"  # written inside a temp dir per run
 
 
@@ -216,7 +216,7 @@ def execution_agent(
         )
         return idx, file_results
 
-    max_workers = min(4, len(scripts))
+    max_workers = min(8, len(scripts))
     with ThreadPoolExecutor(max_workers=max_workers) as pool:
         futures = {
             pool.submit(_run_one, (i, fp)): i
