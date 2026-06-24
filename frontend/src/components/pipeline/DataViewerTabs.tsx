@@ -39,7 +39,7 @@ function Section({
   title, icon: Icon, iconColor, count, countColor, downloadData, downloadName, children
 }: {
   title: string;
-  icon: React.ElementType<any>;
+  icon: any;
   iconColor: string;
   count: number;
   countColor: string;
