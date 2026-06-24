@@ -38,17 +38,23 @@ export function usePipelineSession() {
     return () => { if (timerRef.current) clearInterval(timerRef.current); };
   }, [isProcessing]);
 
+  // Base URL for API calls. Empty string falls back to relative (proxy) for local dev.
+  const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || '';
+
   // Init session and WebSocket
   useEffect(() => {
     let ws: WebSocket;
     async function initSession() {
       try {
-        const res = await axios.post('/api/session');
+        const res = await axios.post(`${BACKEND_URL}/api/session`);
         const sid = res.data.session_id;
         setSessionId(sid);
 
-        const wsProtocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
-        ws = new WebSocket(`${wsProtocol}//${window.location.host}/ws/logs/${sid}`);
+        const wsUrl = BACKEND_URL 
+          ? BACKEND_URL.replace(/^http/, 'ws') + `/ws/logs/${sid}`
+          : `${window.location.protocol === 'https:' ? 'wss:' : 'ws:'}//${window.location.host}/ws/logs/${sid}`;
+
+        ws = new WebSocket(wsUrl);
         ws.onmessage = (event) => {
           const data = JSON.parse(event.data);
           if (data.type === 'log') {
@@ -75,7 +81,7 @@ export function usePipelineSession() {
     setActiveTab('terminal');
     try {
       const nextStep = currentStep + 1;
-      const res = await axios.post(`/api/pipeline/${sessionId}/step/${nextStep}`, {
+      const res = await axios.post(`${BACKEND_URL}/api/pipeline/${sessionId}/step/${nextStep}`, {
         brd_input: brdInput
       });
       setCurrentStep(nextStep);
@@ -99,7 +105,7 @@ export function usePipelineSession() {
     setActiveTab('terminal');
     try {
       const res = await axios.post<{ current_step: number; data: Record<string, unknown> }>(
-        `/api/pipeline/${sessionId}/seed`,
+        `${BACKEND_URL}/api/pipeline/${sessionId}/seed`,
         { start_step: entryStep, input_text: entryInput }
       );
       setCurrentStep(res.data.current_step);
@@ -131,7 +137,7 @@ export function usePipelineSession() {
     form.append('file', file);
     try {
       const res = await axios.post<{ filename: string; text: string; characters: number }>(
-        '/api/brd/upload', form, { headers: { 'Content-Type': 'multipart/form-data' } }
+        `${BACKEND_URL}/api/brd/upload`, form, { headers: { 'Content-Type': 'multipart/form-data' } }
       );
       setBrdInput(res.data.text);
       setUploadedFile({ name: res.data.filename, chars: res.data.characters });
