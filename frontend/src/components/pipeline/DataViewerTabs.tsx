@@ -114,17 +114,17 @@ const UserStoryCard = React.memo(({ story }: { story: Record<string, unknown> })
         </span>
         <div className="flex-1 min-w-0">
           <p className="text-slate-200 text-sm font-medium">{String(story.title ?? '')}</p>
-          {story.story && (
+          {!!story.story && (
             <p className="text-slate-500 text-xs mt-1 leading-relaxed">{String(story.story)}</p>
           )}
         </div>
         <div className="flex items-center gap-2 shrink-0">
-          {story.priority && (
+          {!!story.priority && (
             <span className={`text-[10px] px-2 py-0.5 rounded-full border font-medium ${priorityColor}`}>
               {String(story.priority)}
             </span>
           )}
-          {story.estimation && (
+          {!!story.estimation && (
             <span className="text-[10px] text-slate-500 font-mono bg-slate-800 px-1.5 py-0.5 rounded">
               {String(story.estimation)}pts
             </span>
@@ -144,7 +144,7 @@ const UserStoryCard = React.memo(({ story }: { story: Record<string, unknown> })
             transition={{ duration: 0.2 }} className="overflow-hidden"
           >
             <div className="border-t border-slate-800/60 px-4 pb-4 pt-3 space-y-3">
-              {story.description && (
+              {!!story.description && (
                 <p className="text-slate-400 text-xs leading-relaxed">{String(story.description)}</p>
               )}
               {Array.isArray(story.acceptance_criteria) && story.acceptance_criteria.length > 0 && (
@@ -160,7 +160,7 @@ const UserStoryCard = React.memo(({ story }: { story: Record<string, unknown> })
                   </ul>
                 </div>
               )}
-              {story.review_comments && (
+              {!!story.review_comments && (
                 <div className="mt-2 p-2 rounded-lg bg-amber-500/5 border border-amber-500/15">
                   <p className="text-[10px] uppercase tracking-wider text-amber-600 mb-1">Review Comments</p>
                   <p className="text-xs text-amber-400/80 leading-relaxed">{String(story.review_comments)}</p>
@@ -213,7 +213,7 @@ const TestCaseCard = React.memo(({ tc }: { tc: Record<string, unknown> }) => {
                   </ol>
                 </div>
               )}
-              {tc.expected_result && (
+              {!!tc.expected_result && (
                 <p className="text-xs text-emerald-400/80 bg-emerald-500/5 border border-emerald-500/15 rounded-lg px-3 py-2">
                   <span className="text-slate-600 text-[10px] uppercase tracking-wider block mb-1">Expected</span>
                   {String(tc.expected_result)}
@@ -242,7 +242,7 @@ const ExecResultRow = ({ r }: { r: Record<string, unknown> }) => (
         <Clock size={10} />{(r.duration as number).toFixed(2)}s
       </span>
     )}
-    {r.error_message && (
+    {!!r.error_message && (
       <span className="text-[10px] text-red-400/80 truncate max-w-[200px]">{String(r.error_message)}</span>
     )}
   </div>
@@ -481,10 +481,10 @@ export default function DataViewerTabs({
                             <div key={i} className="glass rounded-xl p-3">
                               <div className="flex items-center gap-2 mb-2">
                                 <span className="font-mono text-[11px] text-rose-400 bg-rose-500/10 px-2 py-0.5 rounded-full">{String(fa.tc_id ?? '')}</span>
-                                {fa.error_type && <span className="text-[10px] text-slate-500">{String(fa.error_type)}</span>}
+                                {!!fa.error_type && <span className="text-[10px] text-slate-500">{String(fa.error_type)}</span>}
                               </div>
-                              {fa.root_cause && <p className="text-xs text-slate-400 leading-relaxed mb-1"><span className="text-slate-600">Root cause: </span>{String(fa.root_cause)}</p>}
-                              {fa.suggestion && <p className="text-xs text-emerald-400/70 leading-relaxed"><span className="text-slate-600">Fix: </span>{String(fa.suggestion)}</p>}
+                              {!!fa.root_cause && <p className="text-xs text-slate-400 leading-relaxed mb-1"><span className="text-slate-600">Root cause: </span>{String(fa.root_cause)}</p>}
+                              {!!fa.suggestion && <p className="text-xs text-emerald-400/70 leading-relaxed"><span className="text-slate-600">Fix: </span>{String(fa.suggestion)}</p>}
                             </div>
                           ))}
                         </div>
